@@ -5,25 +5,26 @@
  */
 package org.jfree.graphics2d;
 
-import eu.hansolo.steelseries.gauges.Radial;
+//import eu.hansolo.steelseries.gauges.Radial;
 
 import java.awt.*;
 
+import com.orsoncharts.Chart3D;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.flow.FlowPlot;
+//import org.jfree.chart.plot.flow.FlowPlot;
 import org.jfree.chart.title.TextTitle;
-import org.jfree.chart3d.Chart3D;
-import org.jfree.chart3d.Chart3DFactory;
-import org.jfree.chart3d.axis.ValueAxis3D;
-import org.jfree.chart3d.data.Range;
-import org.jfree.chart3d.data.function.Function3D;
-import org.jfree.chart3d.graphics3d.Dimension3D;
-import org.jfree.chart3d.graphics3d.ViewPoint3D;
-import org.jfree.chart3d.plot.XYZPlot;
-import org.jfree.chart3d.renderer.GradientColorScale;
-import org.jfree.chart3d.renderer.xyz.SurfaceRenderer;
-import org.jfree.data.flow.DefaultFlowDataset;
-import org.jfree.data.flow.FlowDataset;
+//import org.jfree.chart3d.Chart3D;
+//import org.jfree.chart3d.Chart3DFactory;
+//import org.jfree.chart3d.axis.ValueAxis3D;
+//import org.jfree.chart3d.data.Range;
+//import org.jfree.chart3d.data.function.Function3D;
+//import org.jfree.chart3d.graphics3d.Dimension3D;
+//import org.jfree.chart3d.graphics3d.ViewPoint3D;
+//import org.jfree.chart3d.plot.XYZPlot;
+//import org.jfree.chart3d.renderer.GradientColorScale;
+//import org.jfree.chart3d.renderer.xyz.SurfaceRenderer;
+//import org.jfree.data.flow.DefaultFlowDataset;
+//import org.jfree.data.flow.FlowDataset;
 
 import javax.imageio.ImageIO;
 import java.awt.font.LineMetrics;
@@ -40,7 +41,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
+//import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
@@ -98,112 +99,112 @@ public class Tester {
         g2.setTransform(t);
     }
 
-    private static void prepareSwingUI(final TesterContext tc, final Rectangle2D bounds) {
-        final JComponent content = createContent();
-        final JFrame frame = new JFrame("Title");
-        frame.getContentPane().add(content);
-        frame.setBounds((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
-        frame.pack();
-        tc.frame = frame;
-    }
+//    private static void prepareSwingUI(final TesterContext tc, final Rectangle2D bounds) {
+//        final JComponent content = createContent();
+//        final JFrame frame = new JFrame("Title");
+//        frame.getContentPane().add(content);
+//        frame.setBounds((int) bounds.getX(), (int) bounds.getY(), (int) bounds.getWidth(), (int) bounds.getHeight());
+//        frame.pack();
+//        tc.frame = frame;
+//    }
 
-    private static void drawSwingUI(final JFrame frame, final Graphics2D g2) {
-        frame.getContentPane().paint(g2);
-    }
-
-    private static void prepareOrsonChartSample(final TesterContext tc) {
-        final Function3D function = (double x, double z) -> Math.cos(x) * Math.sin(z);
-
-        final Chart3D chart = Chart3DFactory.createSurfaceChart(
-                "SurfaceRendererDemo1",
-                "y = cos(x) * sin(z)",
-                function, "X", "Y", "Z");
-
-        final XYZPlot plot = (XYZPlot) chart.getPlot();
-        plot.setDimensions(new Dimension3D(10, 5, 10));
-
-        final ValueAxis3D xAxis = plot.getXAxis();
-        xAxis.setRange(-Math.PI, Math.PI);
-        final ValueAxis3D zAxis = plot.getZAxis();
-        zAxis.setRange(-Math.PI, Math.PI);
-
-        final SurfaceRenderer renderer = (SurfaceRenderer) plot.getRenderer();
-        renderer.setDrawFaceOutlines(false);
-        renderer.setColorScale(new GradientColorScale(new Range(-1.0, 1.0),
-                Color.RED, Color.YELLOW));
-        chart.setViewPoint(ViewPoint3D.createAboveLeftViewPoint(70.0));
-        tc.orsonChart = chart;
-    }
-
-    private static void drawOrsonChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
-        tc.orsonChart.draw(g2, bounds);
-    }
-
-    /**
-     * Creates a dataset (source https://statisticsnz.shinyapps.io/trade_dashboard/).
-     *
-     * @return a dataset.
-     */
-    private static DefaultFlowDataset<String> createDataset() {
-        DefaultFlowDataset<String> dataset = new DefaultFlowDataset<>();
-        dataset.setFlow(0, "Goods", "Australia", 2101);
-        dataset.setFlow(0, "Services", "Australia", 714);
-        dataset.setFlow(0, "Goods", "China", 3397);
-        dataset.setFlow(0, "Services", "China", 391);
-        dataset.setFlow(0, "Goods", "USA", 1748);
-        dataset.setFlow(0, "Services", "USA", 583);
-        dataset.setFlow(0, "Goods", "United Kingdom", 363);
-        dataset.setFlow(0, "Services", "United Kingdom", 178);
-
-        // dairy, meat, travel, fruits & nuts, wood, beverages
-        dataset.setFlow(1, "Australia", "Dairy", 165);
-        dataset.setFlow(1, "Australia", "Travel", 198);
-        dataset.setFlow(1, "Australia", "Beverages", 170);
-        dataset.setFlow(1, "Australia", "Other Goods", 2815 - 165 - 198 - 170);
-
-        dataset.setFlow(1, "China", "Dairy", 848);
-        dataset.setFlow(1, "China", "Meat", 463);
-        dataset.setFlow(1, "China", "Travel", 343);
-        dataset.setFlow(1, "China", "Fruit & Nuts", 296);
-        dataset.setFlow(1, "China", "Wood", 706);
-        dataset.setFlow(1, "China", "Other Goods", 3788 - 848 - 463 - 343 - 296 - 706);
-
-        dataset.setFlow(1, "United Kingdom", "Dairy", 18);
-        dataset.setFlow(1, "United Kingdom", "Meat", 71);
-        dataset.setFlow(1, "United Kingdom", "Travel", 59);
-        dataset.setFlow(1, "United Kingdom", "Fruit & Nuts", 13);
-        dataset.setFlow(1, "United Kingdom", "Beverages", 154);
-        dataset.setFlow(1, "United Kingdom", "Other Goods", 541 - 18 - 71 - 59 - 13 - 154);
-
-        dataset.setFlow(1, "USA", "Dairy", 95);
-        dataset.setFlow(1, "USA", "Meat", 367);
-        dataset.setFlow(1, "USA", "Travel", 90);
-        dataset.setFlow(1, "USA", "Wood", 83);
-        dataset.setFlow(1, "USA", "Beverages", 157);
-        dataset.setFlow(1, "USA", "Other Goods", 2331 - 95 - 367 - 90 - 83 - 157);
-        return dataset;
-    }
-
-    /**
-     * Creates a JFreeChart instance to draw as test output.
-     *
-     * @param dataset the dataset.
-     *
-     * @return A JFreeChart instance.
-     */
-    private static JFreeChart createChart(FlowDataset<String> dataset) {
-        FlowPlot plot = new FlowPlot(dataset);
-        plot.setBackgroundPaint(Color.BLACK);
-        plot.setDefaultNodeLabelPaint(Color.WHITE);
-        plot.setNodeColorSwatch(createPastelColors());
-        JFreeChart chart = new JFreeChart("Selected NZ Exports Sept 2020", plot);
-        chart.addSubtitle(new TextTitle("Source: https://statisticsnz.shinyapps.io/trade_dashboard/"));
-        chart.setBackgroundPaint(Color.WHITE);
-        return chart;
-    }
+//    private static void drawSwingUI(final JFrame frame, final Graphics2D g2) {
+//        frame.getContentPane().paint(g2);
+//    }
+//
+//    private static void prepareOrsonChartSample(final TesterContext tc) {
+//        final Function3D function = (double x, double z) -> Math.cos(x) * Math.sin(z);
+//
+//        final Chart3D chart = Chart3DFactory.createSurfaceChart(
+//                "SurfaceRendererDemo1",
+//                "y = cos(x) * sin(z)",
+//                function, "X", "Y", "Z");
+//
+//        final XYZPlot plot = (XYZPlot) chart.getPlot();
+//        plot.setDimensions(new Dimension3D(10, 5, 10));
+//
+//        final ValueAxis3D xAxis = plot.getXAxis();
+//        xAxis.setRange(-Math.PI, Math.PI);
+//        final ValueAxis3D zAxis = plot.getZAxis();
+//        zAxis.setRange(-Math.PI, Math.PI);
+//
+//        final SurfaceRenderer renderer = (SurfaceRenderer) plot.getRenderer();
+//        renderer.setDrawFaceOutlines(false);
+//        renderer.setColorScale(new GradientColorScale(new Range(-1.0, 1.0),
+//                Color.RED, Color.YELLOW));
+//        chart.setViewPoint(ViewPoint3D.createAboveLeftViewPoint(70.0));
+//        tc.orsonChart = chart;
+//    }
+//
+//    private static void drawOrsonChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
+//        tc.orsonChart.draw(g2, bounds);
+//    }
+//
+//    /**
+//     * Creates a dataset (source https://statisticsnz.shinyapps.io/trade_dashboard/).
+//     *
+//     * @return a dataset.
+//     */
+//    private static DefaultFlowDataset<String> createDataset() {
+//        DefaultFlowDataset<String> dataset = new DefaultFlowDataset<>();
+//        dataset.setFlow(0, "Goods", "Australia", 2101);
+//        dataset.setFlow(0, "Services", "Australia", 714);
+//        dataset.setFlow(0, "Goods", "China", 3397);
+//        dataset.setFlow(0, "Services", "China", 391);
+//        dataset.setFlow(0, "Goods", "USA", 1748);
+//        dataset.setFlow(0, "Services", "USA", 583);
+//        dataset.setFlow(0, "Goods", "United Kingdom", 363);
+//        dataset.setFlow(0, "Services", "United Kingdom", 178);
+//
+//        // dairy, meat, travel, fruits & nuts, wood, beverages
+//        dataset.setFlow(1, "Australia", "Dairy", 165);
+//        dataset.setFlow(1, "Australia", "Travel", 198);
+//        dataset.setFlow(1, "Australia", "Beverages", 170);
+//        dataset.setFlow(1, "Australia", "Other Goods", 2815 - 165 - 198 - 170);
+//
+//        dataset.setFlow(1, "China", "Dairy", 848);
+//        dataset.setFlow(1, "China", "Meat", 463);
+//        dataset.setFlow(1, "China", "Travel", 343);
+//        dataset.setFlow(1, "China", "Fruit & Nuts", 296);
+//        dataset.setFlow(1, "China", "Wood", 706);
+//        dataset.setFlow(1, "China", "Other Goods", 3788 - 848 - 463 - 343 - 296 - 706);
+//
+//        dataset.setFlow(1, "United Kingdom", "Dairy", 18);
+//        dataset.setFlow(1, "United Kingdom", "Meat", 71);
+//        dataset.setFlow(1, "United Kingdom", "Travel", 59);
+//        dataset.setFlow(1, "United Kingdom", "Fruit & Nuts", 13);
+//        dataset.setFlow(1, "United Kingdom", "Beverages", 154);
+//        dataset.setFlow(1, "United Kingdom", "Other Goods", 541 - 18 - 71 - 59 - 13 - 154);
+//
+//        dataset.setFlow(1, "USA", "Dairy", 95);
+//        dataset.setFlow(1, "USA", "Meat", 367);
+//        dataset.setFlow(1, "USA", "Travel", 90);
+//        dataset.setFlow(1, "USA", "Wood", 83);
+//        dataset.setFlow(1, "USA", "Beverages", 157);
+//        dataset.setFlow(1, "USA", "Other Goods", 2331 - 95 - 367 - 90 - 83 - 157);
+//        return dataset;
+//    }
+//
+//    /**
+//     * Creates a JFreeChart instance to draw as test output.
+//     *
+//     * @param dataset the dataset.
+//     *
+//     * @return A JFreeChart instance.
+//     */
+//    private static JFreeChart createChart(FlowDataset<String> dataset) {
+//        FlowPlot plot = new FlowPlot(dataset);
+//        plot.setBackgroundPaint(Color.BLACK);
+//        plot.setDefaultNodeLabelPaint(Color.WHITE);
+//        plot.setNodeColorSwatch(createPastelColors());
+//        JFreeChart chart = new JFreeChart("Selected NZ Exports Sept 2020", plot);
+//        chart.addSubtitle(new TextTitle("Source: https://statisticsnz.shinyapps.io/trade_dashboard/"));
+//        chart.setBackgroundPaint(Color.WHITE);
+//        return chart;
+//    }
 
     private static java.util.List<Color> createPastelColors() {
-        List<Color> result = new ArrayList<>();
+        List<Color> result = new ArrayList<Color>();
         result.add(new Color(232, 177, 165));
         result.add(new Color(207, 235, 142));
         result.add(new Color(142, 220, 220));
@@ -217,13 +218,13 @@ public class Tester {
         return result;
     }
 
-    private static void prepareJFreeChartSample(final TesterContext tc) {
-        tc.jfreeChart = createChart(createDataset());
-    }
-
-    private static void drawJFreeChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
-        tc.jfreeChart.draw(g2, bounds);
-    }
+//    private static void prepareJFreeChartSample(final TesterContext tc) {
+//        tc.jfreeChart = createChart(createDataset());
+//    }
+//
+//    private static void drawJFreeChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
+//        tc.jfreeChart.draw(g2, bounds);
+//    }
 
     /**
      * Prepare test sheets
@@ -231,15 +232,15 @@ public class Tester {
      */
     public static void prepareTestSheet(final TesterContext tc) {
         try {
-            ImageTests.prepareQRCodeImage(tc);
+//            ImageTests.prepareQRCodeImage(tc);
 
-            prepareJFreeChartSample(tc);
-
-            prepareOrsonChartSample(tc);
+//            prepareJFreeChartSample(tc);
+//
+//            prepareOrsonChartSample(tc);
 
             ImageTests.prepareImage(tc);
 
-            prepareSwingUI(tc, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
+//            prepareSwingUI(tc, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -281,22 +282,22 @@ public class Tester {
         row--;
 
         // QR CODE AT RIGHT SIDE
-        row += 4;
-        moveTo(TILE_COUNT_H - 4, row, g2);
-        ImageTests.drawQRCodeImage(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 2, TILE_HEIGHT * 2), 5);
-        row -= 4;
+//        row += 4;
+//        moveTo(TILE_COUNT_H - 4, row, g2);
+//        ImageTests.drawQRCodeImage(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 2, TILE_HEIGHT * 2), 5);
+//        row -= 4;
 
-        // JFREECHART AT RIGHT SIDE
-        row += 7;
-        moveTo(TILE_COUNT_H - 4, row, g2);
-        drawJFreeChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
-        row -= 7;
-
-        // ORSON CHARTS AT RIGHT SIDE
-        row += 12;
-        moveTo(TILE_COUNT_H - 4, row, g2);
-        drawOrsonChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
-        row -= 12;
+//        // JFREECHART AT RIGHT SIDE
+//        row += 7;
+//        moveTo(TILE_COUNT_H - 4, row, g2);
+//        drawJFreeChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
+//        row -= 7;
+//
+//        // ORSON CHARTS AT RIGHT SIDE
+//        row += 12;
+//        moveTo(TILE_COUNT_H - 4, row, g2);
+//        drawOrsonChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
+//        row -= 12;
 
         row++;  // ***** LINES SPECIAL
         moveTo(0, row, g2);
@@ -602,9 +603,9 @@ public class Tester {
         GradientPaint gp3 = new GradientPaint(p, 0f, Color.YELLOW, p * 3, 0f, Color.RED, true);
         ShapeTests.fillAndStrokeShape(g2, roundRect, gp3, null, null);
 
-        moveTo(3, row, g2);
-        LinearGradientPaint lgp1 = new LinearGradientPaint(10f, 0f, TILE_WIDTH - 10, 0f, new float[]{0f, 1 / 6f, 2 / 6f, 3 / 6f, 4 / 6f, 5 / 6f, 1f}, RAINBOW_COLORS);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, lgp1, null, null);
+//        moveTo(3, row, g2);
+//        LinearGradientPaint lgp1 = new LinearGradientPaint(10f, 0f, TILE_WIDTH - 10, 0f, new float[]{0f, 1 / 6f, 2 / 6f, 3 / 6f, 4 / 6f, 5 / 6f, 1f}, RAINBOW_COLORS);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, lgp1, null, null);
 
         moveTo(4, row, g2);
         GradientPaint gp4 = new GradientPaint(0f, 0f, Color.YELLOW, TILE_WIDTH, TILE_HEIGHT, Color.RED);
@@ -620,9 +621,9 @@ public class Tester {
         GradientPaint gp6 = new GradientPaint(p, 0f, Color.YELLOW, p * 3, TILE_HEIGHT, Color.RED, true);
         ShapeTests.fillAndStrokeShape(g2, roundRect, gp6, null, null);
 
-        moveTo(7, row, g2);
-        LinearGradientPaint lgp2 = new LinearGradientPaint(10f, 0f, TILE_WIDTH - 10, TILE_HEIGHT, new float[]{0f, 1 / 6f, 2 / 6f, 3 / 6f, 4 / 6f, 5 / 6f, 1f}, RAINBOW_COLORS);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, lgp2, null, null);
+//        moveTo(7, row, g2);
+//        LinearGradientPaint lgp2 = new LinearGradientPaint(10f, 0f, TILE_WIDTH - 10, TILE_HEIGHT, new float[]{0f, 1 / 6f, 2 / 6f, 3 / 6f, 4 / 6f, 5 / 6f, 1f}, RAINBOW_COLORS);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, lgp2, null, null);
 
         row++;  // ***** LINES WITH GRADIENT PAINT
         moveTo(0, row, g2);
@@ -631,43 +632,43 @@ public class Tester {
         ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, gp2);
         moveTo(2, row, g2);
         ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, gp3);
-        moveTo(3, row, g2);
-        ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, lgp1);
+//        moveTo(3, row, g2);
+//        ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, lgp1);
         moveTo(4, row, g2);
         ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, gp4);
         moveTo(5, row, g2);
         ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, gp5);
         moveTo(6, row, g2);
         ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, gp6);
-        moveTo(7, row, g2);
-        ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, lgp2);
+//        moveTo(7, row, g2);
+//        ShapeTests.drawLineCaps(g2, bounds, 5.0, 5.0f, lgp2);
 
         row++;  // ***** RADIAL GRADIENT PAINT
-        moveTo(0, row, g2);
-        Point2D center = new Point2D.Double(TILE_WIDTH / 2.0, TILE_HEIGHT / 2.0);
-        RadialGradientPaint rgp = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY});
-        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp, null, null);
-
-        moveTo(1, row, g2);
-        RadialGradientPaint rgp2 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REPEAT);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp2, null, null);
-
-        moveTo(2, row, g2);
-        RadialGradientPaint rgp3 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REFLECT);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp3, null, null);
-
-        moveTo(3, row, g2);
-        Point2D focus = new Point2D.Double(TILE_WIDTH / 3.0, TILE_HEIGHT / 3.0);
-        RadialGradientPaint rgp4 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), focus, new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.NO_CYCLE);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp4, null, null);
-
-        moveTo(4, row, g2);
-        RadialGradientPaint rgp5 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), focus, new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REPEAT);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp5, null, null);
-
-        moveTo(5, row, g2);
-        RadialGradientPaint rgp6 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), focus, new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REFLECT);
-        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp6, null, null);
+//        moveTo(0, row, g2);
+//        Point2D center = new Point2D.Double(TILE_WIDTH / 2.0, TILE_HEIGHT / 2.0);
+//        RadialGradientPaint rgp = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY});
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp, null, null);
+//
+//        moveTo(1, row, g2);
+//        RadialGradientPaint rgp2 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REPEAT);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp2, null, null);
+//
+//        moveTo(2, row, g2);
+//        RadialGradientPaint rgp3 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REFLECT);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp3, null, null);
+//
+//        moveTo(3, row, g2);
+//        Point2D focus = new Point2D.Double(TILE_WIDTH / 3.0, TILE_HEIGHT / 3.0);
+//        RadialGradientPaint rgp4 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), focus, new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.NO_CYCLE);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp4, null, null);
+//
+//        moveTo(4, row, g2);
+//        RadialGradientPaint rgp5 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), focus, new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REPEAT);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp5, null, null);
+//
+//        moveTo(5, row, g2);
+//        RadialGradientPaint rgp6 = new RadialGradientPaint(center, (float) (TILE_HEIGHT / 2.0 - 5), focus, new float[]{0.0f, 0.75f, 1.0f}, new Color[]{Color.YELLOW, Color.RED, Color.LIGHT_GRAY}, MultipleGradientPaint.CycleMethod.REFLECT);
+//        ShapeTests.fillAndStrokeShape(g2, roundRect, rgp6, null, null);
 
         row++;  // ***** TexturePaint
         moveTo(0, row, g2);
@@ -691,7 +692,7 @@ public class Tester {
         ShapeTests.fillAndStrokeShape(g2, ellipse, tp, new BasicStroke(1.0f), Color.BLACK);
 
         moveTo(3, row, g2);
-        tp = new TexturePaint(image, new Rectangle(0, 0, w * 2, h * 2));
+//        tp = new TexturePaint(image, new Rectangle(0, 0, w * 2, h * 2));
         ShapeTests.fillAndStrokeShape(g2, rect, tp, null, null);
 
         moveTo(4, row, g2);
@@ -884,7 +885,7 @@ public class Tester {
             g2.setTransform(savedTransform);
         }
         moveTo(TILE_COUNT_H - 2, 20, g2);
-        drawSwingUI(tc.frame, g2);
+//        drawSwingUI(tc.frame, g2);
 
         // System.out.println("drawTestSheet: out ------");
     }
@@ -900,7 +901,7 @@ public class Tester {
         g2.setFont(new Font("Courier New", Font.PLAIN, 14));
         int y = 20;
         g2.drawString("target -> " + g2Implementation, 10, y += 16);
-        g2.drawString("timestamp -> " + LocalDateTime.now(), 10, y += 16);
+//        g2.drawString("timestamp -> " + LocalDateTime.now(), 10, y += 16);
         g2.drawString("os.name -> " + System.getProperty("os.name"), 10, y += 16);
         g2.drawString("os.version -> " + System.getProperty("os.version"), 10, y += 16);
         g2.drawString("os.arch -> " + System.getProperty("os.arch"), 10, y += 16);
@@ -910,7 +911,7 @@ public class Tester {
     }
 
     private static void prepareTestSingle(final TesterContext tc) {
-        prepareSwingUI(tc, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
+//        prepareSwingUI(tc, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
     }
 
     /**
@@ -921,7 +922,7 @@ public class Tester {
      */
     private static void drawTestSingle(final TesterContext tc, Graphics2D g2) {
         moveTo(0, 0, g2);
-        drawSwingUI(tc.frame, g2);
+//        drawSwingUI(tc.frame, g2);
     }
 
     /**
@@ -1017,38 +1018,38 @@ public class Tester {
         }
     }
 
-    private static JComponent createContent() {
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (Exception e) {
-            // just take the default look and feel
-            System.err.println(e.getMessage());
-            e.printStackTrace(System.err);
-        }
-
-        JPanel content = new JPanel(new BorderLayout());
-        JTabbedPane tabs = new JTabbedPane();
-        final Radial gauge = new Radial();
-        gauge.setTitle("SteelSeries");
-        gauge.setUnitString("Units");
-        gauge.setDigitalFont(true);
-        gauge.setValue(45.0);
-        gauge.setPreferredSize(new Dimension(300, 200));
-        JPanel panel1 = new JPanel(new BorderLayout());
-        panel1.add(gauge, BorderLayout.CENTER);
-        //panel1.add(new JButton("Click ME!"), BorderLayout.CENTER);
-        tabs.add("Tab 1", panel1);
-        tabs.add("Tab 2", new JButton("Second Tab"));
-        JButton button = new JButton("OK");
-        content.add(tabs);
-        content.add(button, BorderLayout.SOUTH);
-        return content;
-    }
+//    private static JComponent createContent() {
+//        try {
+//            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (Exception e) {
+//            // just take the default look and feel
+//            System.err.println(e.getMessage());
+//            e.printStackTrace(System.err);
+//        }
+//
+//        JPanel content = new JPanel(new BorderLayout());
+//        JTabbedPane tabs = new JTabbedPane();
+//        final Radial gauge = new Radial();
+//        gauge.setTitle("SteelSeries");
+//        gauge.setUnitString("Units");
+//        gauge.setDigitalFont(true);
+//        gauge.setValue(45.0);
+//        gauge.setPreferredSize(new Dimension(300, 200));
+//        JPanel panel1 = new JPanel(new BorderLayout());
+//        panel1.add(gauge, BorderLayout.CENTER);
+//        //panel1.add(new JButton("Click ME!"), BorderLayout.CENTER);
+//        tabs.add("Tab 1", panel1);
+//        tabs.add("Tab 2", new JButton("Second Tab"));
+//        JButton button = new JButton("OK");
+//        content.add(tabs);
+//        content.add(button, BorderLayout.SOUTH);
+//        return content;
+//    }
 
     /**
      * Returns the width of the test sheet in Java2D units.
