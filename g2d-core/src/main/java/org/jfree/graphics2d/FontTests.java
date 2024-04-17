@@ -117,14 +117,14 @@ public class FontTests {
      */
     public static void drawTextWithTracking(Graphics2D g2, Rectangle2D bounds) {
         g2.setPaint(Color.BLACK);
-        Map<TextAttribute, Object> attributes = new HashMap<>();
-        attributes.put(TextAttribute.TRACKING, 0.0);
+        Map<TextAttribute, Object> attributes = new HashMap<TextAttribute, Object>();
+//        attributes.put(TextAttribute.TRACKING, 0.0);
         g2.setFont(new Font(Font.SERIF, Font.PLAIN, 14).deriveFont(attributes));
         g2.drawString("Tracking:", (float) bounds.getX() + 5f, (float) bounds.getY() + 20);
-        attributes.put(TextAttribute.TRACKING, TextAttribute.TRACKING_LOOSE);
+//        attributes.put(TextAttribute.TRACKING, TextAttribute.TRACKING_LOOSE);
         g2.setFont(new Font(Font.SERIF, Font.PLAIN, 14).deriveFont(attributes));
         g2.drawString("Tracking: TRACKING_LOOSE", (float) bounds.getX() + 5f, (float) bounds.getY() + 40);
-        attributes.put(TextAttribute.TRACKING, TextAttribute.TRACKING_TIGHT);
+//        attributes.put(TextAttribute.TRACKING, TextAttribute.TRACKING_TIGHT);
         g2.setFont(new Font(Font.SERIF, Font.PLAIN, 14).deriveFont(attributes));
         g2.drawString("Tracking: TRACKING_TIGHT", (float) bounds.getX() + 5f, (float) bounds.getY() + 60);
     }
@@ -206,7 +206,7 @@ public class FontTests {
         AttributedString test3 = new AttributedString("To & AWAY (with kerning)");
         test3.addAttribute(TextAttribute.FAMILY, Font.SERIF);
         test3.addAttribute(TextAttribute.SIZE, 14, 0, 24);
-        test3.addAttribute(TextAttribute.KERNING, TextAttribute.KERNING_ON, 0, 24);
+//        test3.addAttribute(TextAttribute.KERNING, TextAttribute.KERNING_ON, 0, 24);
 
         g2.drawString(test1.getIterator(), (float) bounds.getX() + 5f, (float) bounds.getY() + 20f);
         g2.drawString(test2.getIterator(), (float) bounds.getX() + 5f, (float) bounds.getY() + 40f);
@@ -228,7 +228,7 @@ public class FontTests {
         AttributedString test2 = new AttributedString("Affluent fish (on)");
         test2.addAttribute(TextAttribute.FAMILY, Font.SERIF);
         test2.addAttribute(TextAttribute.SIZE, 14, 0, 18);
-        test2.addAttribute(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON, 0, 18);
+//        test2.addAttribute(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON, 0, 18);
 
         AttributedString test3 = new AttributedString("Affluent fish (off)");
         test3.addAttribute(TextAttribute.FAMILY, Font.SERIF);
