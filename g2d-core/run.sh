@@ -1,5 +1,4 @@
-./gradlew createFatJar
+cd ..
+./gradlew :g2d-core:createFatJar
 
-jamvm -jar build/libs/g2d-classpath-all.jar es.ingelabs.Tester
-
-open java2D.png
+jamvm -jar g2d-core/build/libs/g2d-core-all.jar
