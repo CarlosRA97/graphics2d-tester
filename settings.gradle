@@ -1,0 +1,7 @@
+rootProject.name = 'graphics2d-tester'
+
+include 'g2d-core'
+//include 'g2d-fxgraphics2d'
+//include 'g2d-jfreepdf'
+//include 'g2d-jfreesvg'
+//include 'g2d-skijagraphics2d'
