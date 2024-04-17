@@ -18,7 +18,7 @@ import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Path2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
@@ -294,21 +294,15 @@ public class ShapeTests {
         Area a2 = new Area(rectangle);
 
         // perform operation on two areas
-        switch (operation) {
-            case "add":
-                a1.add(a2);
-                break;
-            case "intersect":
-                a1.intersect(a2);
-                break;
-            case "subtract":
-                a1.subtract(a2);
-                break;
-            case "exclusiveOr":
-                a1.exclusiveOr(a2);
-                break;
-            default:
-            // do nothing
+        // do nothing
+        if (operation.equals("add")) {
+            a1.add(a2);
+        } else if (operation.equals("intersect")) {
+            a1.intersect(a2);
+        } else if (operation.equals("subtract")) {
+            a1.subtract(a2);
+        } else if (operation.equals("exclusiveOr")) {
+            a1.exclusiveOr(a2);
         }
         return a1;
     }
@@ -321,7 +315,7 @@ public class ShapeTests {
      *
      * @return A new path instance.
      */
-    static Path2D createPath2D(Rectangle2D bounds, double margin) {
+    static GeneralPath createPath2D(Rectangle2D bounds, double margin) {
         double deltaY = (bounds.getHeight() - 2 * margin) / 5.0;
         GeneralPath path = new GeneralPath();
         path.setWindingRule(GeneralPath.WIND_EVEN_ODD);
@@ -333,18 +327,18 @@ public class ShapeTests {
         double y3 = y0 + deltaY * 3;
         double y4 = y0 + deltaY * 4;
         double y5 = y0 + deltaY * 5;
-        path.moveTo(x0, y0);
-        path.lineTo(x1, y0);
-        path.lineTo(x1, y5);
-        path.lineTo(x0, y5);
-        path.lineTo(x0, y1);
-        path.lineTo(x1 - margin, y1);
-        path.lineTo(x1 - margin, y4);
-        path.lineTo(x0 + margin, y4);
-        path.lineTo(x0 + margin, y2);
-        path.lineTo(x1 - margin * 2, y2);
-        path.lineTo(x1 - margin * 2, y3);
-        path.lineTo(bounds.getCenterX(), y3);
+        path.moveTo((float) x0, (float) y0);
+        path.lineTo((float) x1, (float) y0);
+        path.lineTo((float) x1, (float) y5);
+        path.lineTo((float) x0, (float) y5);
+        path.lineTo((float) x0, (float) y1);
+        path.lineTo((float) (x1 - margin), (float) y1);
+        path.lineTo((float) (x1 - margin), (float) y4);
+        path.lineTo((float) (x0 + margin), (float) y4);
+        path.lineTo((float) (x0 + margin), (float) y2);
+        path.lineTo((float) (x1 - margin * 2), (float) y2);
+        path.lineTo((float) (x1 - margin * 2), (float) y3);
+        path.lineTo((float) bounds.getCenterX(), (float) y3);
         path.closePath();
         return path;
     }
