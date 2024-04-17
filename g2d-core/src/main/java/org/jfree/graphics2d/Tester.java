@@ -232,7 +232,7 @@ public class Tester {
      */
     public static void prepareTestSheet(final TesterContext tc) {
         try {
-//            ImageTests.prepareQRCodeImage(tc);
+            ImageTests.prepareQRCodeImage(tc);
 
 //            prepareJFreeChartSample(tc);
 //
@@ -282,10 +282,10 @@ public class Tester {
         row--;
 
         // QR CODE AT RIGHT SIDE
-//        row += 4;
-//        moveTo(TILE_COUNT_H - 4, row, g2);
-//        ImageTests.drawQRCodeImage(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 2, TILE_HEIGHT * 2), 5);
-//        row -= 4;
+        row += 4;
+        moveTo(TILE_COUNT_H - 4, row, g2);
+        ImageTests.drawQRCodeImage(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 2, TILE_HEIGHT * 2), 5);
+        row -= 4;
 
 //        // JFREECHART AT RIGHT SIDE
 //        row += 7;

@@ -6,6 +6,7 @@
 package org.jfree.graphics2d;
 
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -45,7 +46,9 @@ public class ImageTests {
     static void prepareQRCodeImage(final TesterContext tc) throws Exception {
         final QRCodeWriter writer = new QRCodeWriter();
         final BitMatrix matrix = writer.encode(tc.qrLink, BarcodeFormat.QR_CODE, 250, 250);
-        tc.qrCodeImage = MatrixToImageWriter.toBufferedImage(matrix);
+        int onColor = 0xFE000000;
+        int offColor = 0xFFFFFFFF;
+        tc.qrCodeImage = MatrixToImageWriter.toBufferedImage(matrix, new MatrixToImageConfig(onColor, offColor));
     }
 
     /**
