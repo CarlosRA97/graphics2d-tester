@@ -32,7 +32,7 @@ import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Path2D;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
@@ -445,7 +445,7 @@ public class Tester {
         ShapeTests.fillAndStrokeShape(g2, arc3, Color.LIGHT_GRAY, OUTLINE_3, Color.BLACK);
 
         row++; // ***** GeneralPATH
-        Path2D path = ShapeTests.createPath2D(bounds, MARGIN);
+        GeneralPath path = ShapeTests.createPath2D(bounds, MARGIN);
         moveTo(0, row, g2);
         ShapeTests.fillAndStrokeShape(g2, path, Color.RED, null, null);
         moveTo(1, row, g2);
@@ -460,7 +460,7 @@ public class Tester {
         ShapeTests.fillAndStrokeShape(g2, path, Color.LIGHT_GRAY, OUTLINE_3, Color.BLACK);
 
         row++; // ***** GeneralPATH WIND_NON_ZERO FILL
-        path.setWindingRule(Path2D.WIND_NON_ZERO);
+        path.setWindingRule(GeneralPath.WIND_NON_ZERO);
         moveTo(0, row, g2);
         ShapeTests.fillAndStrokeShape(g2, path, Color.RED, null, null);
         moveTo(1, row, g2);
@@ -723,7 +723,7 @@ public class Tester {
         Area areaToTranslate = ShapeTests.createCombinedArea("exclusiveOr", new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH / 2.0, TILE_HEIGHT / 2.0), 2.5);
         TransformTests.translateShape(g2, bounds, areaToTranslate, Color.YELLOW, new BasicStroke(1.0f), Color.BLACK);
         moveTo(7, row, g2);
-        Path2D pathToTranslate = ShapeTests.createPath2D(new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH / 2.0, TILE_HEIGHT / 2.0), 2.5);
+        GeneralPath pathToTranslate = ShapeTests.createPath2D(new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH / 2.0, TILE_HEIGHT / 2.0), 2.5);
         TransformTests.translateShape(g2, bounds, pathToTranslate, Color.ORANGE, new BasicStroke(1.0f), Color.BLACK);
 
         row++; // ***** ROTATION
@@ -751,7 +751,7 @@ public class Tester {
         TransformTests.rotateShape(g2, bounds, areaToRotate, Math.PI / 4, Color.BLUE, OUTLINE, Color.BLACK);
         moveTo(7, row, g2);
         double mmm = 0.50;
-        Path2D pathToRotate = ShapeTests.createPath2D(new Rectangle2D.Double(TILE_WIDTH * (mmm / 2.0), TILE_HEIGHT * (mmm / 2.0), TILE_WIDTH * (1 - mmm), TILE_HEIGHT * (1 - mmm)), 0.0);
+        GeneralPath pathToRotate = ShapeTests.createPath2D(new Rectangle2D.Double(TILE_WIDTH * (mmm / 2.0), TILE_HEIGHT * (mmm / 2.0), TILE_WIDTH * (1 - mmm), TILE_HEIGHT * (1 - mmm)), 0.0);
         TransformTests.rotateShape(g2, bounds, pathToRotate, Math.PI / 4, Color.BLUE, OUTLINE, Color.BLACK);
 
         row++; // ***** SHEAR X & Y
@@ -800,7 +800,7 @@ public class Tester {
         TransformTests.shearShape(g2, bounds, areaToShear, shx, 0.0, Color.BLUE, OUTLINE, Color.BLACK);
 
         moveTo(7, row, g2);
-        Path2D pathToShear = ShapeTests.createPath2D(new Rectangle2D.Double(TILE_WIDTH * (mmm / 2.0), TILE_HEIGHT * (mmm / 2.0), TILE_WIDTH * (1 - mmm), TILE_HEIGHT * (1 - mmm)), 0.0);
+        GeneralPath pathToShear = ShapeTests.createPath2D(new Rectangle2D.Double(TILE_WIDTH * (mmm / 2.0), TILE_HEIGHT * (mmm / 2.0), TILE_WIDTH * (1 - mmm), TILE_HEIGHT * (1 - mmm)), 0.0);
         TransformTests.shearShape(g2, bounds, pathToShear, 0.0, shy, Color.BLUE, OUTLINE, Color.BLACK);
         moveTo(7, row + 1, g2);
         TransformTests.shearShape(g2, bounds, pathToShear, shx, 0.0, Color.BLUE, OUTLINE, Color.BLACK);
