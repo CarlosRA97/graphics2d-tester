@@ -1,0 +1,77 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    classpath_dir = file("/usr/local/classpath/share/classpath/") // Ajustar al path real de GNU Classpath
+    classpath_zip = file("${classpath_dir}/glibj.zip")
+    classpath_bootclasspath = files(classpath_zip)
+}
+
+java {
+    sourceCompatibility JavaVersion.VERSION_1_6
+    targetCompatibility JavaVersion.VERSION_1_6
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+    options.bootstrapClasspath = project.classpath_bootclasspath
+}
+
+dependencies {
+    // https://sourceforge.net/projects/orson/files/orson/0.5.0/
+    // implementation rootProject.files('lib/orson-0.5.0/orson-0.5.0.jar')
+
+    // https://github.com/jfree/orson-charts/tree/v1.6
+    //implementation rootProject.files('lib/orson-charts/orsoncharts-1.6-nofx.jar')
+
+    // https://mvnrepository.com/artifact/com.object-refinery/orsoncharts
+    implementation group: 'com.object-refinery', name: 'orsoncharts', version: '1.7'
+
+
+    // https://mvnrepository.com/artifact/org.jfree/jfreechart
+    implementation group: 'org.jfree', name: 'jfreechart', version: '1.0.19'
+    //implementation rootProject.files('lib/jfree/jfreechart-1.0.19.jar')
+
+    // ------- QR Code Dependencies
+
+    // https://mvnrepository.com/artifact/com.google.zxing/core
+    implementation group: 'com.google.zxing', name: 'core', version: '2.3.0'
+    //implementation rootProject.files('lib/zxing/core-2.3.0.jar')
+    // https://mvnrepository.com/artifact/com.google.zxing/javase
+    implementation group: 'com.google.zxing', name: 'javase', version: '2.3.0'
+    //implementation rootProject.files('lib/zxing/javase-2.3.0.jar')
+
+
+
+    testImplementation 'junit:junit:4.12'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+jar {
+    from sourceSets.main.output
+    from sourceSets.test.output
+    manifest {
+        from 'build/resources/main/META-INF/MANIFEST.MF'
+    }
+}
+
+task createFatJar(type: Jar) {
+    baseName = project.name + '-all'  // Customize base name if needed
+    manifest {
+        from 'build/resources/main/META-INF/MANIFEST.MF'
+    }
+    from sourceSets.main.output
+    from sourceSets.test.output
+    from configurations.runtimeClasspath.collect { zipTree(it) }
+}

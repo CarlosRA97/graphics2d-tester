@@ -1,6 +1,5 @@
-#!/bin/bash
+./gradlew createFatJar
 
-source ../test-jdk17.sh
+jamvm -jar build/libs/g2d-classpath-all.jar es.ingelabs.Tester
 
-java -Xms1g -Xmx1g -Dsun.java2d.uiScale=1.0 -jar target/g2d-core-1.0.0-jar-with-dependencies.jar
-
+open java2D.png
