@@ -297,8 +297,10 @@ public class ShapeTests {
         if (operation.equals("add")) {
             a1.add(a2);
         } else if (operation.equals("intersect")) {
+            // FIXME: Possible bug in GNU Classpath
             a1.intersect(a2);
         } else if (operation.equals("subtract")) {
+            // FIXME: Possible bug in GNU Classpath
             a1.subtract(a2);
         } else if (operation.equals("exclusiveOr")) {
             a1.exclusiveOr(a2);
