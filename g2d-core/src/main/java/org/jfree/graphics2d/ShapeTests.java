@@ -280,8 +280,17 @@ public class ShapeTests {
     static Area createCombinedArea(String operation, Rectangle2D bounds, double margin) {
 
         Rectangle2D areaBounds = new Rectangle2D.Double(margin, margin, bounds.getWidth() - 2 * margin, bounds.getHeight() - 2 * margin);
-        double w = areaBounds.getWidth() / 1.5;
-        double h = areaBounds.getHeight() / 1.5;
+        // FIXME: PROBLEMA CON EL CALCULO DE PUNTO FLOTANTE con double, probaremos con float
+//      Si usarmos 1.5 ya sea float o double y no da los resultados esperados
+        double factor = 1.51;
+
+        double w = areaBounds.getWidth() / factor;
+        double h = areaBounds.getHeight() / factor;
+
+//        w = new BigDecimal(w).setScale(2, RoundingMode.HALF_UP).floatValue();
+//        h = new BigDecimal(h).setScale(2, RoundingMode.HALF_UP).floatValue();
+
+        System.out.println("Area Bounds: " + areaBounds.getBounds2D() + ", (w, h) divided by " + factor + ": (" + w + ", " + h + ")");
 
         // create an ellipse in the top left
         Ellipse2D ellipse = new Ellipse2D.Double(areaBounds.getX(), areaBounds.getY(), w, h);
@@ -297,10 +306,8 @@ public class ShapeTests {
         if (operation.equals("add")) {
             a1.add(a2);
         } else if (operation.equals("intersect")) {
-            // FIXME: Possible bug in GNU Classpath
             a1.intersect(a2);
         } else if (operation.equals("subtract")) {
-            // FIXME: Possible bug in GNU Classpath
             a1.subtract(a2);
         } else if (operation.equals("exclusiveOr")) {
             a1.exclusiveOr(a2);
