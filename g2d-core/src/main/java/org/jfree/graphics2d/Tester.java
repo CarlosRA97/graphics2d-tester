@@ -60,7 +60,7 @@ import javax.swing.UIManager;
  */
 public class Tester {
 
-    private final static int REPEATS = 100;
+    private final static int REPEATS = 1;
 
     final static boolean DO_CLIP = true;
 
@@ -930,7 +930,37 @@ public class Tester {
      */
     private static void drawTestSingle(final TesterContext tc, Graphics2D g2) {
         moveTo(0, 0, g2);
-//        drawSwingUI(tc.frame, g2);
+        int row = 1;
+        moveTo(0, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.Clear, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+        moveTo(1, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.Src, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+        moveTo(2, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.SrcOver, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+
+        // FIXME: NO APARECE EL CUADRADO AZUL DETRAS DEL CIRCULO ROJO
+        moveTo(3, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.DstOver, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+
+//         FIXME: Possible bug in GTK peer or GNU Classpath if using 0.9 works, queda igual que src o src_over
+        moveTo(4, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.getInstance(AlphaComposite.SRC_IN, 0.9f), new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+        moveTo(5, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.getInstance(AlphaComposite.DST_IN, 0.9f), new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+        moveTo(6, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.getInstance(AlphaComposite.SRC_OUT, 0.9f), new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+//          END FIXME
+        moveTo(7, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.DstOut, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+        moveTo(8, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.Dst, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+        moveTo(9, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.SrcAtop, new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+
+//         FIXME: Possible bug in GTK peer or GNU Classpath if using 0.9 works
+        moveTo(10, row, g2);
+        ShapeTests.drawShapesWithAlphaComposite(g2, AlphaComposite.getInstance(AlphaComposite.DST_ATOP, 0.9f), new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH, TILE_HEIGHT), 5.0);
+//         END FIXME
     }
 
     /**

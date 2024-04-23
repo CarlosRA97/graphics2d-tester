@@ -361,6 +361,9 @@ public class ShapeTests {
         // create a rectangle in the bottom right
         Rectangle2D rectangle = new Rectangle2D.Double(bounds.getWidth() - margin - w, bounds.getHeight() - margin - h, w, h);
 
+        System.out.println("Alphacomposite rule: " + ac.getRule() + ", alpha: " + ac.getAlpha());
+        System.out.println("Bounds: " + bounds.getBounds2D());
+
         g2.setComposite(AlphaComposite.SrcOver);
         g2.setPaint(Color.RED);
         g2.fill(ellipse);
@@ -368,6 +371,7 @@ public class ShapeTests {
         g2.setComposite(ac);
         g2.setPaint(Color.BLUE);
         g2.fill(rectangle);
+        System.out.println(g2.getColor().getAlpha());
     }
 
     private ShapeTests() {
