@@ -300,6 +300,7 @@ public class ShapeTests {
 
         Area a1 = new Area(ellipse);
         Area a2 = new Area(rectangle);
+        System.out.println("Area 1: " + a1.getBounds2D() + ", Area 2:" + a2.getBounds2D());
 
         // perform operation on two areas
         // do nothing
