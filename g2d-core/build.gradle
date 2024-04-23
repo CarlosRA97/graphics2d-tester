@@ -67,7 +67,7 @@ jar {
 }
 
 task createFatJar(type: Jar) {
-    baseName = project.name + '-all'  // Customize base name if needed
+    //baseName = project.name + '-all'  // Customize base name if needed
     manifest {
         from 'build/resources/main/META-INF/MANIFEST.MF'
     }
