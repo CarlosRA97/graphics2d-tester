@@ -36,3 +36,6 @@ nb-configuration.xml
 /g2d-skijagraphics2d/prof-*.sh
 *.jfr
 
+/**/build/
+/**/.gradle
+.idea
