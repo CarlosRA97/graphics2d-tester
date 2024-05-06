@@ -3,3 +3,7 @@ cd ..
 
 jamvm -version
 jamvm -Xms64m -Xmx128m -Dsun.java2d.uiScale=1.0 -jar g2d-core/build/libs/g2d-core.jar
+#jvm_version 6
+#java -version
+#java -Xms64m -Xmx128m -Dsun.java2d.uiScale=1.0 -jar g2d-core/build/libs/g2d-core.jar
+

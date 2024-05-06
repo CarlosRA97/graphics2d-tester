@@ -5,13 +5,7 @@
  */
 package org.jfree.graphics2d;
 
-import java.awt.AlphaComposite;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Area;
 import java.awt.geom.CubicCurve2D;
@@ -282,13 +276,11 @@ public class ShapeTests {
         Rectangle2D areaBounds = new Rectangle2D.Double(margin, margin, bounds.getWidth() - 2 * margin, bounds.getHeight() - 2 * margin);
         // FIXME: PROBLEMA CON EL CALCULO DE PUNTO FLOTANTE con double, probaremos con float
 //      Si usarmos 1.5 ya sea float o double y no da los resultados esperados
-        double factor = 1.51;
+        double factor = 1.5;
 
-        double w = areaBounds.getWidth() / factor;
-        double h = areaBounds.getHeight() / factor;
-
-//        w = new BigDecimal(w).setScale(2, RoundingMode.HALF_UP).floatValue();
-//        h = new BigDecimal(h).setScale(2, RoundingMode.HALF_UP).floatValue();
+//        FIXED
+        double w = MathUtils.floorWithScale(areaBounds.getWidth() / factor, 6);
+        double h = MathUtils.floorWithScale(areaBounds.getHeight() / factor, 6);
 
         System.out.println("Area Bounds: " + areaBounds.getBounds2D() + ", (w, h) divided by " + factor + ": (" + w + ", " + h + ")");
 
@@ -353,14 +345,17 @@ public class ShapeTests {
     }
 
     static void drawShapesWithAlphaComposite(Graphics2D g2, AlphaComposite ac, Rectangle2D bounds, double margin) {
-        double w = bounds.getWidth() / 1.5;
-        double h = bounds.getHeight() / 1.5;
+        double factor = 1.5;
+        double w = MathUtils.floorWithScale(bounds.getWidth() / factor, 6);
+        double h = MathUtils.floorWithScale(bounds.getHeight() / factor, 6);
 
         // create an ellipse in the top left
-        Ellipse2D ellipse = new Ellipse2D.Double(margin, margin, bounds.getWidth() / 1.5, bounds.getHeight() / 1.5);
+        Ellipse2D ellipse = new Ellipse2D.Double(margin, margin, w, h);
 
         // create a rectangle in the bottom right
         Rectangle2D rectangle = new Rectangle2D.Double(bounds.getWidth() - margin - w, bounds.getHeight() - margin - h, w, h);
+
+        ac = AlphaCompositeFactory.create(ac);
 
         System.out.println("Alphacomposite rule: " + ac.getRule() + ", alpha: " + ac.getAlpha());
         System.out.println("Bounds: " + bounds.getBounds2D());
@@ -372,7 +367,6 @@ public class ShapeTests {
         g2.setComposite(ac);
         g2.setPaint(Color.BLUE);
         g2.fill(rectangle);
-        System.out.println(g2.getColor().getAlpha());
     }
 
     private ShapeTests() {
