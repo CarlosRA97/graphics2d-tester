@@ -15,6 +15,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Tests relating to drawing and filling shapes.
