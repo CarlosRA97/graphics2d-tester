@@ -6,15 +6,7 @@
 package org.jfree.graphics2d;
 
 import java.awt.*;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -280,9 +272,12 @@ public class ShapeTests {
 //      Si usarmos 1.5 ya sea float o double y no da los resultados esperados
         double factor = 1.5;
 
+        double w = areaBounds.getWidth() / factor;
+        double h = areaBounds.getHeight() / factor;
+
 //        FIXED
-        double w = MathUtils.floorWithScale(areaBounds.getWidth() / factor, 6);
-        double h = MathUtils.floorWithScale(areaBounds.getHeight() / factor, 6);
+//        double w = MathUtils.floorWithScale(areaBounds.getWidth() / factor, 6);
+//        double h = MathUtils.floorWithScale(areaBounds.getHeight() / factor, 6);
 
         System.out.println("Area Bounds: " + areaBounds.getBounds2D() + ", (w, h) divided by " + factor + ": (" + w + ", " + h + ")");
 
@@ -348,16 +343,15 @@ public class ShapeTests {
 
     static void drawShapesWithAlphaComposite(Graphics2D g2, AlphaComposite ac, Rectangle2D bounds, double margin) {
         double factor = 1.5;
-        double w = MathUtils.floorWithScale(bounds.getWidth() / factor, 6);
-        double h = MathUtils.floorWithScale(bounds.getHeight() / factor, 6);
+
+        double w = bounds.getWidth() / factor;
+        double h = bounds.getHeight() / factor;
 
         // create an ellipse in the top left
         Ellipse2D ellipse = new Ellipse2D.Double(margin, margin, w, h);
 
         // create a rectangle in the bottom right
         Rectangle2D rectangle = new Rectangle2D.Double(bounds.getWidth() - margin - w, bounds.getHeight() - margin - h, w, h);
-
-        ac = AlphaCompositeFactory.create(ac);
 
         System.out.println("Alphacomposite rule: " + ac.getRule() + ", alpha: " + ac.getAlpha());
         System.out.println("Bounds: " + bounds.getBounds2D());

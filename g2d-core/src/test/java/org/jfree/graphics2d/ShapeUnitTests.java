@@ -8,8 +8,10 @@ import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Random;
 
-import static org.jfree.graphics2d.Utils.readImageAsBase64;
+import static org.jfree.graphics2d.Utils.*;
 
 public class ShapeUnitTests {
 
@@ -23,9 +25,14 @@ public class ShapeUnitTests {
     BufferedImage image = new BufferedImage(TILE_WIDTH * 4, TILE_HEIGHT * 4, BufferedImage.TYPE_INT_ARGB);
     Graphics2D g2 = image.createGraphics();
 
+    BufferedImage image1;
+    BufferedImage image2;
+
     String imagePath = "test_output/ShapeTests/";
 
-    final Rectangle2D areaBounds = new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH - 3 * margin, TILE_HEIGHT - 3 * margin);
+    Rectangle2D areaBounds = new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH - 3 * margin, TILE_HEIGHT - 3 * margin);
+
+    Random random = new Random(1234);
 
     Area a1;
     Area a2;
@@ -41,8 +48,14 @@ public class ShapeUnitTests {
     public void setup() {
         image = new BufferedImage((int) (TILE_WIDTH * 4), (int) (TILE_HEIGHT * 4), BufferedImage.TYPE_INT_ARGB);
         g2 = image.createGraphics();
-        double w = MathUtils.floorWithScale(areaBounds.getWidth() / factor, 7);
-        double h = MathUtils.floorWithScale(areaBounds.getHeight() / factor, 7);
+
+        double w = areaBounds.getWidth() / factor;
+        double h = areaBounds.getHeight() / factor;
+
+//        double w = MathUtils.floorWithScale(areaBounds.getWidth() / factor, 7);
+//        double h = MathUtils.floorWithScale(areaBounds.getHeight() / factor, 7);
+
+
         System.out.printf("w(%s), h(%s)%n", w, h);
         Ellipse2D ellipse = new Ellipse2D.Double(areaBounds.getX(), areaBounds.getY(), w, h);
         Rectangle2D rectangle = new Rectangle2D.Double(areaBounds.getMaxX() - w, areaBounds.getMaxY() - h, w, h);
@@ -93,10 +106,13 @@ public class ShapeUnitTests {
         System.out.println("------------- Comparing Combined Areas ADD INTERSECT -----------------");
         for (double i = 0.1; i < maxFactor; i += scale) {
             factor = i;
+//            areaBounds = new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH * (1/random.nextDouble()), TILE_HEIGHT * (1/random.nextDouble()));
             setup();
             createCombinedAreaAdd();
+            image1 = image;
             setup();
             createCombinedAreaIntersect();
+            image2 = image;
 
             System.out.println("Combined Areas: ADD, INTERSECT");
             compareImageByTypes("Add", "Intersect");
@@ -111,10 +127,13 @@ public class ShapeUnitTests {
         System.out.println("------------- Comparing Combined Areas SUBTRACT XOR -----------------");
         for (double i = 0.1; i < maxFactor; i += scale) {
             factor = i;
+//            areaBounds = new Rectangle2D.Double(0.0, 0.0, TILE_WIDTH * (1/random.nextDouble()), TILE_HEIGHT * (1/random.nextDouble()));
             setup();
             createCombinedAreaSubtract();
+            image1 = image;
             setup();
             createCombinedAreaExclusiveOr();
+            image2 = image;
 
             System.out.println("Combined Areas: SUBTRACT, XOR");
             compareImageByTypes("Subtract", "XOR");
@@ -131,6 +150,14 @@ public class ShapeUnitTests {
             System.out.println("Correcto! con factor (" + factor + ")");
         } catch (AssertionError e) {
             System.out.println("Son iguales con factor (" + factor + ") !!!");
+
+            try {
+                Thread.sleep(1000);
+                writeImageToFile(image1, getCombinedAreaImageFile(".error.(" + factor + ")." + type1));
+                writeImageToFile(image2, getCombinedAreaImageFile(".error.(" + factor + ")." + type2));
+            } catch (Exception ex) {
+                ex.printStackTrace(System.out);
+            }
         }
         System.out.println();
 
