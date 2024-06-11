@@ -10,34 +10,31 @@ package org.jfree.graphics2d;
 import java.awt.*;
 
 import com.orsoncharts.Chart3D;
+import com.orsoncharts.Chart3DFactory;
+import com.orsoncharts.Range;
+import com.orsoncharts.axis.ValueAxis3D;
+import com.orsoncharts.data.function.Function3D;
+import com.orsoncharts.graphics3d.Dimension3D;
+import com.orsoncharts.graphics3d.ViewPoint3D;
+import com.orsoncharts.plot.XYZPlot;
+import com.orsoncharts.renderer.GradientColorScale;
+import com.orsoncharts.renderer.xyz.SurfaceRenderer;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
-//import org.jfree.chart.plot.flow.FlowPlot;
-import org.jfree.chart.title.TextTitle;
-//import org.jfree.chart3d.Chart3D;
-//import org.jfree.chart3d.Chart3DFactory;
-//import org.jfree.chart3d.axis.ValueAxis3D;
-//import org.jfree.chart3d.data.Range;
-//import org.jfree.chart3d.data.function.Function3D;
-//import org.jfree.chart3d.graphics3d.Dimension3D;
-//import org.jfree.chart3d.graphics3d.ViewPoint3D;
-//import org.jfree.chart3d.plot.XYZPlot;
-//import org.jfree.chart3d.renderer.GradientColorScale;
-//import org.jfree.chart3d.renderer.xyz.SurfaceRenderer;
-//import org.jfree.data.flow.DefaultFlowDataset;
-//import org.jfree.data.flow.FlowDataset;
+import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYItemRenderer;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
+import org.jfree.chart.ui.RectangleInsets;
+import org.jfree.data.time.Month;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
+
 
 import javax.imageio.ImageIO;
 import java.awt.font.LineMetrics;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Arc2D;
-import java.awt.geom.Area;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.QuadCurve2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -113,80 +110,104 @@ public class Tester {
 //    private static void drawSwingUI(final JFrame frame, final Graphics2D g2) {
 //        frame.getContentPane().paint(g2);
 //    }
-//
-//    private static void prepareOrsonChartSample(final TesterContext tc) {
-//        final Function3D function = (double x, double z) -> Math.cos(x) * Math.sin(z);
-//
-//        final Chart3D chart = Chart3DFactory.createSurfaceChart(
-//                "SurfaceRendererDemo1",
-//                "y = cos(x) * sin(z)",
-//                function, "X", "Y", "Z");
-//
-//        final XYZPlot plot = (XYZPlot) chart.getPlot();
-//        plot.setDimensions(new Dimension3D(10, 5, 10));
-//
-//        final ValueAxis3D xAxis = plot.getXAxis();
-//        xAxis.setRange(-Math.PI, Math.PI);
-//        final ValueAxis3D zAxis = plot.getZAxis();
-//        zAxis.setRange(-Math.PI, Math.PI);
-//
-//        final SurfaceRenderer renderer = (SurfaceRenderer) plot.getRenderer();
-//        renderer.setDrawFaceOutlines(false);
-//        renderer.setColorScale(new GradientColorScale(new Range(-1.0, 1.0),
-//                Color.RED, Color.YELLOW));
-//        chart.setViewPoint(ViewPoint3D.createAboveLeftViewPoint(70.0));
-//        tc.orsonChart = chart;
-//    }
-//
-//    private static void drawOrsonChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
-//        tc.orsonChart.draw(g2, bounds);
-//    }
+
+    private static void prepareOrsonChartSample(final TesterContext tc) {
+        final Function3D function = new Function3D() {
+            @Override
+            public double getValue(double x, double z) {
+                return Math.cos(x) * Math.sin(z);
+            }
+        };
+
+        final Chart3D chart = Chart3DFactory.createSurfaceChart(
+                "SurfaceRendererDemo1",
+                "y = cos(x) * sin(z)",
+                function, "X", "Y", "Z");
+
+        final XYZPlot plot = (XYZPlot) chart.getPlot();
+        plot.setDimensions(new Dimension3D(10, 5, 10));
+
+        final ValueAxis3D xAxis = plot.getXAxis();
+        xAxis.setRange(-Math.PI, Math.PI);
+        final ValueAxis3D zAxis = plot.getZAxis();
+        zAxis.setRange(-Math.PI, Math.PI);
+
+        final SurfaceRenderer renderer = (SurfaceRenderer) plot.getRenderer();
+        renderer.setDrawFaceOutlines(false);
+        renderer.setColorScale(new GradientColorScale(new Range(-1.0, 1.0),
+                Color.RED, Color.YELLOW));
+        chart.setViewPoint(ViewPoint3D.createAboveLeftViewPoint(70.0));
+        tc.orsonChart = chart;
+    }
+
+    private static void drawOrsonChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
+        tc.orsonChart.draw(g2, bounds);
+    }
 //
 //    /**
 //     * Creates a dataset (source https://statisticsnz.shinyapps.io/trade_dashboard/).
 //     *
 //     * @return a dataset.
 //     */
-//    private static DefaultFlowDataset<String> createDataset() {
-//        DefaultFlowDataset<String> dataset = new DefaultFlowDataset<>();
-//        dataset.setFlow(0, "Goods", "Australia", 2101);
-//        dataset.setFlow(0, "Services", "Australia", 714);
-//        dataset.setFlow(0, "Goods", "China", 3397);
-//        dataset.setFlow(0, "Services", "China", 391);
-//        dataset.setFlow(0, "Goods", "USA", 1748);
-//        dataset.setFlow(0, "Services", "USA", 583);
-//        dataset.setFlow(0, "Goods", "United Kingdom", 363);
-//        dataset.setFlow(0, "Services", "United Kingdom", 178);
-//
-//        // dairy, meat, travel, fruits & nuts, wood, beverages
-//        dataset.setFlow(1, "Australia", "Dairy", 165);
-//        dataset.setFlow(1, "Australia", "Travel", 198);
-//        dataset.setFlow(1, "Australia", "Beverages", 170);
-//        dataset.setFlow(1, "Australia", "Other Goods", 2815 - 165 - 198 - 170);
-//
-//        dataset.setFlow(1, "China", "Dairy", 848);
-//        dataset.setFlow(1, "China", "Meat", 463);
-//        dataset.setFlow(1, "China", "Travel", 343);
-//        dataset.setFlow(1, "China", "Fruit & Nuts", 296);
-//        dataset.setFlow(1, "China", "Wood", 706);
-//        dataset.setFlow(1, "China", "Other Goods", 3788 - 848 - 463 - 343 - 296 - 706);
-//
-//        dataset.setFlow(1, "United Kingdom", "Dairy", 18);
-//        dataset.setFlow(1, "United Kingdom", "Meat", 71);
-//        dataset.setFlow(1, "United Kingdom", "Travel", 59);
-//        dataset.setFlow(1, "United Kingdom", "Fruit & Nuts", 13);
-//        dataset.setFlow(1, "United Kingdom", "Beverages", 154);
-//        dataset.setFlow(1, "United Kingdom", "Other Goods", 541 - 18 - 71 - 59 - 13 - 154);
-//
-//        dataset.setFlow(1, "USA", "Dairy", 95);
-//        dataset.setFlow(1, "USA", "Meat", 367);
-//        dataset.setFlow(1, "USA", "Travel", 90);
-//        dataset.setFlow(1, "USA", "Wood", 83);
-//        dataset.setFlow(1, "USA", "Beverages", 157);
-//        dataset.setFlow(1, "USA", "Other Goods", 2331 - 95 - 367 - 90 - 83 - 157);
-//        return dataset;
-//    }
-//
+    private static XYDataset createDataset() {
+
+        TimeSeries s1 = new TimeSeries("L&G European Index Trust");
+        s1.add(new Month(2, 2001), 181.8);
+        s1.add(new Month(3, 2001), 167.3);
+        s1.add(new Month(4, 2001), 153.8);
+        s1.add(new Month(5, 2001), 167.6);
+        s1.add(new Month(6, 2001), 158.8);
+        s1.add(new Month(7, 2001), 148.3);
+        s1.add(new Month(8, 2001), 153.9);
+        s1.add(new Month(9, 2001), 142.7);
+        s1.add(new Month(10, 2001), 123.2);
+        s1.add(new Month(11, 2001), 131.8);
+        s1.add(new Month(12, 2001), 139.6);
+        s1.add(new Month(1, 2002), 142.9);
+        s1.add(new Month(2, 2002), 138.7);
+        s1.add(new Month(3, 2002), 137.3);
+        s1.add(new Month(4, 2002), 143.9);
+        s1.add(new Month(5, 2002), 139.8);
+        s1.add(new Month(6, 2002), 137.0);
+        s1.add(new Month(7, 2002), 132.8);
+
+        TimeSeries s2 = new TimeSeries("L&G UK Index Trust");
+        s2.add(new Month(2, 2001), 129.6);
+        s2.add(new Month(3, 2001), 123.2);
+        s2.add(new Month(4, 2001), 117.2);
+        s2.add(new Month(5, 2001), 124.1);
+        s2.add(new Month(6, 2001), 122.6);
+        s2.add(new Month(7, 2001), 119.2);
+        s2.add(new Month(8, 2001), 116.5);
+        s2.add(new Month(9, 2001), 112.7);
+        s2.add(new Month(10, 2001), 101.5);
+        s2.add(new Month(11, 2001), 106.1);
+        s2.add(new Month(12, 2001), 110.3);
+        s2.add(new Month(1, 2002), 111.7);
+        s2.add(new Month(2, 2002), 111.0);
+        s2.add(new Month(3, 2002), 109.6);
+        s2.add(new Month(4, 2002), 113.2);
+        s2.add(new Month(5, 2002), 111.6);
+        s2.add(new Month(6, 2002), 108.8);
+        s2.add(new Month(7, 2002), 101.6);
+
+        // ******************************************************************
+        //  More than 150 demo applications are included with the JFreeChart
+        //  Developer Guide...for more information, see:
+        //
+        //  >   http://www.object-refinery.com/jfreechart/guide.html
+        //
+        // ******************************************************************
+
+        TimeSeriesCollection dataset = new TimeSeriesCollection();
+        dataset.addSeries(s1);
+        dataset.addSeries(s2);
+
+        return dataset;
+
+    }
+
+    //
 //    /**
 //     * Creates a JFreeChart instance to draw as test output.
 //     *
@@ -194,16 +215,38 @@ public class Tester {
 //     *
 //     * @return A JFreeChart instance.
 //     */
-//    private static JFreeChart createChart(FlowDataset<String> dataset) {
-//        FlowPlot plot = new FlowPlot(dataset);
-//        plot.setBackgroundPaint(Color.BLACK);
-//        plot.setDefaultNodeLabelPaint(Color.WHITE);
-//        plot.setNodeColorSwatch(createPastelColors());
-//        JFreeChart chart = new JFreeChart("Selected NZ Exports Sept 2020", plot);
-//        chart.addSubtitle(new TextTitle("Source: https://statisticsnz.shinyapps.io/trade_dashboard/"));
-//        chart.setBackgroundPaint(Color.WHITE);
-//        return chart;
-//    }
+    private static JFreeChart createChart(XYDataset dataset) {
+
+        JFreeChart chart = ChartFactory.createTimeSeriesChart(
+            "Legal & General Unit Trust Prices",  // title
+            "Date",             // x-axis label
+            "Price Per Unit",   // y-axis label
+            dataset);
+
+        chart.setBackgroundPaint(Color.WHITE);
+
+        XYPlot plot = (XYPlot) chart.getPlot();
+        plot.setBackgroundPaint(Color.LIGHT_GRAY);
+        plot.setDomainGridlinePaint(Color.WHITE);
+        plot.setRangeGridlinePaint(Color.WHITE);
+        plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
+        plot.setDomainCrosshairVisible(true);
+        plot.setRangeCrosshairVisible(true);
+
+        XYItemRenderer r = plot.getRenderer();
+        if (r instanceof XYLineAndShapeRenderer) {
+            XYLineAndShapeRenderer renderer = (XYLineAndShapeRenderer) r;
+            renderer.setDefaultShapesVisible(true);
+            renderer.setDefaultShapesFilled(true);
+            renderer.setDrawSeriesLineAsPath(true);
+        }
+
+        DateAxis axis = (DateAxis) plot.getDomainAxis();
+        axis.setDateFormatOverride(new SimpleDateFormat("MMM-yyyy"));
+
+        return chart;
+
+    }
 
     private static java.util.List<Color> createPastelColors() {
         List<Color> result = new ArrayList<Color>();
@@ -220,13 +263,13 @@ public class Tester {
         return result;
     }
 
-//    private static void prepareJFreeChartSample(final TesterContext tc) {
-//        tc.jfreeChart = createChart(createDataset());
-//    }
-//
-//    private static void drawJFreeChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
-//        tc.jfreeChart.draw(g2, bounds);
-//    }
+    private static void prepareJFreeChartSample(final TesterContext tc) {
+        tc.jfreeChart = createChart(createDataset());
+    }
+
+    private static void drawJFreeChartSample(final TesterContext tc, Graphics2D g2, Rectangle2D bounds) {
+        tc.jfreeChart.draw(g2, bounds);
+    }
 
     /**
      * Prepare test sheets
@@ -236,9 +279,9 @@ public class Tester {
         try {
             ImageTests.prepareQRCodeImage(tc);
 
-//            prepareJFreeChartSample(tc);
-//
-//            prepareOrsonChartSample(tc);
+            prepareJFreeChartSample(tc);
+
+            prepareOrsonChartSample(tc);
 
             ImageTests.prepareImage(tc);
 
@@ -289,17 +332,17 @@ public class Tester {
         ImageTests.drawQRCodeImage(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 2, TILE_HEIGHT * 2), 5);
         row -= 4;
 
-//        // JFREECHART AT RIGHT SIDE
-//        row += 7;
-//        moveTo(TILE_COUNT_H - 4, row, g2);
-//        drawJFreeChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
-//        row -= 7;
-//
-//        // ORSON CHARTS AT RIGHT SIDE
-//        row += 12;
-//        moveTo(TILE_COUNT_H - 4, row, g2);
-//        drawOrsonChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
-//        row -= 12;
+        // JFREECHART AT RIGHT SIDE
+        row += 7;
+        moveTo(TILE_COUNT_H - 4, row, g2);
+        drawJFreeChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
+        row -= 7;
+
+        // ORSON CHARTS AT RIGHT SIDE
+        row += 12;
+        moveTo(TILE_COUNT_H - 4, row, g2);
+        drawOrsonChartSample(tc, g2, new Rectangle2D.Double(0, 0, TILE_WIDTH * 4, TILE_HEIGHT * 4));
+        row -= 12;
 
         row++;  // ***** LINES SPECIAL
         moveTo(0, row, g2);
